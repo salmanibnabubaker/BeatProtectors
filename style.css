@@ -1,0 +1,35 @@
+#Outer-Container{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#Inner-Container{
+    width: 500px;
+    height: 500px;
+    border: 1px solid black;
+    position: relative;
+}
+#start-window{
+    width: 100%;
+    height: 100%;
+    background-color: aliceblue;
+    position: absolute;
+}
+#start-window h3{
+    margin-left: 20px;
+}
+#start-button{
+    width: 100px;
+    height: 30px;
+    background-color: black;
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+}
