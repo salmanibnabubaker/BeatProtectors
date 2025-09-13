@@ -48,6 +48,7 @@
     width: 400px;
     height: 400px;
     border: 1px solid white;
+    background-color: white;
 }
 .gridblock{
     position: absolute;
@@ -55,6 +56,12 @@
     height: 20px;
 }
 .obstacle{
-    background: url('./brick.jpg');
-    background-size: cover;
+    background-color: black;
+}
+.enemy{
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    position: absolute;
+    transition: top 0.1s ease,left 0.1s ease;
 }
