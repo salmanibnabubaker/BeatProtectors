@@ -24,6 +24,7 @@ class enemy{
         let dest=this.selectdestination(this.i,this.j);
         let path=this.findshortestpath(this.i,this.j,dest[0],dest[1],this.matrix);
         this.path=path;
+
         this.enemymovestart(0);
     }
     reachablepositions(n,m,matrix){
@@ -149,7 +150,7 @@ class enemy{
         this.en.style.top=String(this.path[index][0]*20)+"px";
         this.en.style.left=String(this.path[index][1]*20)+"px";
         this.i=this.path[index][0];
-        this.j=this.path[index][1];
+        this.j=this.path[index][1];                           
         if(index!=this.path.length-1){
             this.enemymovestart(index+1);
         }

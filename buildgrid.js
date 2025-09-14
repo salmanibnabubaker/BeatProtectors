@@ -4,8 +4,12 @@
 //top-left corner is user starting point
 //bottom right corner is cave from where protectors emerges
 
+import Enemy from "./enemy.js";
+import User from "./user.js";
+
 function constructmatrix(n,m){
     let matrix=[];
+    let hidecount=5;
     for(let i=0;i<n;i++){
         let row=[];
         for(let j=0;j<m;j++){
@@ -13,8 +17,18 @@ function constructmatrix(n,m){
                 row.push(1);
                 continue;
             }
-            if(Math.ceil(Math.random()*3)==1){
+            let sel=Math.ceil(Math.random()*4);
+            if(sel==1){
                 row.push(0);
+            }
+            else if(sel==2){
+                if(hidecount>0){
+                    hidecount--;
+                    row.push(2);
+                }
+                else{
+                    row.push(1)
+                }
             }
             else{
                 row.push(1);
@@ -77,16 +91,59 @@ function pathexist(n,m,matrix){
     return foundpath(0,0,n,m,vis,matrix);
 }
 
+
+
+
+
 let n=20;
 let m=20;
 let maxtries=10;
-
+let matrix;
 while(maxtries>0){
-    let matrix = constructmatrix(n, m);
+    matrix = constructmatrix(n, m);
     if (pathexist(n, m, matrix)) {
         constructgrid(matrix);
         break;
     }
     maxtries--;
 }
+matrix[0][0]=0;
+matrix[n-1][m-1]=0;
 
+
+/*
+let enemy1;
+let enemy2;
+let enemy3;
+setTimeout(()=>{
+    enemy1 = new Enemy(n,m,n,m,matrix);
+    enemy1.addenemy();
+},1000);
+
+setTimeout(()=>{
+    enemy2 = new Enemy(n,m,n,m,matrix);
+    enemy2.addenemy();
+},3000);
+
+
+setTimeout(()=>{
+    enemy3 = new Enemy(n,m,n,m,matrix);
+    enemy3.addenemy();
+},5000);
+
+
+let user=new User(0,0,matrix);
+user.adduser();
+document.addEventListener('keydown', function(event) {
+    if (event.key === "ArrowRight" || event.key === "ArrowDown" || 
+        event.key === "ArrowLeft"  || event.key === "ArrowUp") {
+        user.moveuser(event.key);
+    }
+    if (event.key == "a" || event.key == "A") {
+        user.startattack();
+    }
+    if (event.key === "d" || event.key === "D") {
+        user.startdefense();
+    }
+});
+*/
