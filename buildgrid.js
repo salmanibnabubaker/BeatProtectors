@@ -7,6 +7,22 @@
 import Enemy from "./enemy.js";
 import User from "./user.js";
 
+
+function findhidespots(x,y,n,m,matrix){
+    let spots=[];
+    for(let i=x;i<=n;i++){
+        for(let j=y;j<=m;j++){
+            if(matrix[i][j]==1){
+                spots.push([i,j]);
+            }
+        }
+    }
+    
+    let index = Math.floor(Math.random()*spots.length);
+    return spots[index];
+    
+}
+
 function constructmatrix(n,m){
     let matrix=[];
     let hidecount=5;
@@ -17,18 +33,8 @@ function constructmatrix(n,m){
                 row.push(1);
                 continue;
             }
-            let sel=Math.ceil(Math.random()*4);
-            if(sel==1){
+            if(Math.ceil(Math.random()*4)==1){
                 row.push(0);
-            }
-            else if(sel==2){
-                if(hidecount>0){
-                    hidecount--;
-                    row.push(2);
-                }
-                else{
-                    row.push(1)
-                }
             }
             else{
                 row.push(1);
@@ -36,6 +42,19 @@ function constructmatrix(n,m){
         }
         matrix.push(row);
     }
+
+
+    //find hidespots
+    
+    let ranges=[[0,0,9,9],[0,10,9,10],[10,0,19,9],[10,10,19,19]];
+
+    for(let k=0;k<ranges.length;k++){
+        let limits=ranges[k];
+        let [i,j]=findhidespots(limits[0],limits[1],limits[2],limits[3],matrix);
+        matrix[i][j]=2;
+    }
+    
+
     return matrix;
 }
 
@@ -51,6 +70,9 @@ function constructgrid(matrix){
             if(matrix[i][j]==0){
                 Block.setAttribute("class","gridblock obstacle");
             }
+            else if(matrix[i][j]==2){
+                Block.setAttribute("class","gridblock hidespot");
+            }
             else{
                 Block.setAttribute("class","gridblock");
             }
@@ -58,6 +80,8 @@ function constructgrid(matrix){
         }
     }
     Container.appendChild(Parent);
+    matrix[0][0]=0;
+    matrix[n-1][m-1]=0;
 }
 function foundpath(i,j,n,m,vis,matrix){
     if(i<0||j<0||i==n||j==m){
@@ -79,7 +103,7 @@ function foundpath(i,j,n,m,vis,matrix){
     }
     return false;
 }
-function pathexist(n,m,matrix){
+function pathexist(sourceX,sourceY,destX,destY,n,m,matrix){
     let vis=[];
     for(let i=0;i<n;i++){
         let row=[];
@@ -88,7 +112,7 @@ function pathexist(n,m,matrix){
         }
         vis.push(row);
     }
-    return foundpath(0,0,n,m,vis,matrix);
+    return foundpath(sourceX,sourceY,destX+1,destY+1,vis,matrix);
 }
 
 
@@ -101,17 +125,16 @@ let maxtries=10;
 let matrix;
 while(maxtries>0){
     matrix = constructmatrix(n, m);
-    if (pathexist(n, m, matrix)) {
+    if (pathexist(0,0,n-1,m-1,n, m, matrix)) {
         constructgrid(matrix);
         break;
     }
     maxtries--;
 }
-matrix[0][0]=0;
-matrix[n-1][m-1]=0;
 
 
-/*
+
+
 let enemy1;
 let enemy2;
 let enemy3;
@@ -145,5 +168,7 @@ document.addEventListener('keydown', function(event) {
     if (event.key === "d" || event.key === "D") {
         user.startdefense();
     }
+    if (event.key === "h" || event.key === "H") {
+        user.hideinspot();
+    }
 });
-*/

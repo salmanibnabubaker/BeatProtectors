@@ -10,6 +10,7 @@ class user{
         this.points = 0 ;
         this.canmove = true;
         this.us = document.getElementById("")
+        this.hided=false;
     }
 
     adduser(){
@@ -81,6 +82,19 @@ class user{
         this.updateposition();
     }
 
+    hideinspot(){
+        if(!this.hided){
+            if(this.matrix[this.i][this.j]==2){
+                this.hided=true;
+                this.us.style.zIndex="-1";
+                this.canmove=false;
+            }
+            return;
+        }
+        this.hided=false;
+        this.us.style.zIndex="1";
+        this.canmove=true;
+    }
 }
 
 export default user;

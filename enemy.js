@@ -11,6 +11,7 @@ class enemy{
         this.destinations = this.reachablepositions(this.n,this.m,this.matrix);
         this.path=[];
         this.en=document.getElementById("");
+        this.hided=false;
     }
     addenemy(){
         let Parent = document.getElementById("grid-container");
